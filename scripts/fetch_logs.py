@@ -225,7 +225,44 @@ def fetch_user_rewards_vault_logs(web3: Web3, from_block: Optional[int] = None,
     print(f"Found {len(logs)} user-rewards vault logs across all reward vaults")
     
     if logs:
-        save_raw_logs(logs, "user_rewards_vault", timestamp)
+        save_raw_logs(logs, "user_rewards_vault", timestamp.replace(" ", "_"))
 
 
+def fetch_berachef_weight_update_logs(web3: Web3, from_block: Optional[int] = None, 
+                                     to_block: Optional[int] = None, 
+                                     timestamp: Optional[str] = None):
+    """
+    Fetch BeraChef validator weight update logs and save them.
+    
+    Args:
+        web3: Web3 instance
+        from_block: Starting block number (defaults to last processed block + 1 or 0)
+        to_block: Ending block number (defaults to latest block)
+        timestamp: Timestamp string for the log file (defaults to current time)
+    """
+    # If from_block is not provided, use the last processed block + 1
+    if from_block is None:
+        last_block = get_last_processed_block("berachef_weight_updates")
+        from_block = last_block + 1 if last_block > 0 else 0
+        print(f"Using last processed block + 1 as from_block: {from_block}")
+    
+    print(f"Fetching BeraChef weight update logs from block {from_block} to {to_block or 'latest'}...")
 
+    # Get the ActivateRewardAllocation event signature
+    event_signature = config.BERACHEF.event_signatures["ActivateRewardAllocation"]
+
+    logs = get_logs(
+        web3=web3,
+        contract_address=config.BERACHEF.address,
+        event_signature=event_signature,
+        from_block=from_block,
+        to_block=to_block
+    )
+    
+    print(f"Found {len(logs)} BeraChef weight update logs")
+    
+    if logs:
+        if timestamp is None:
+            timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+        save_raw_logs(logs, "berachef_weight_updates", timestamp.replace(" ", "_"))
+        

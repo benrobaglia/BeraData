@@ -38,7 +38,7 @@ def decode_validator_delegator_log(log: Dict) -> Dict:
         "tx_hash": '0x' + log['transactionHash'].hex() if isinstance(log['transactionHash'], bytes) else log['transactionHash'],
         "block_number": log['blockNumber'],
         "validator_address": '0x' + log_data[3].hex() if isinstance(log_data[3], bytes) else log_data[3],
-        "delegator_address": '0x' + log_data[1].hex()[-40:] if isinstance(log_data[1], bytes) else log_data[1],
+        "delegator_address": '0x' + log_data[2].hex()[-40:] if isinstance(log_data[2], bytes) else log_data[1],
         "amount_bgt_delegated": amt,
     }
     return decoded_log

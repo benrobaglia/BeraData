@@ -72,12 +72,14 @@ BERACHEF = ContractConfig(
 # File paths
 RAW_LOGS_DIR = {
     "validator_delegator": "raw_logs/validator_delegator",
-    "user_rewards_vault": "raw_logs/user_rewards_vault"
+    "user_rewards_vault": "raw_logs/user_rewards_vault",
+    "berachef_weight_updates": "raw_logs/berachef_weight_updates"
 }
 
 PROCESSED_DATA_DIR = {
     "validator_delegator": "processed_data/validator_delegator",
-    "user_rewards_vault": "processed_data/user_rewards_vault"
+    "user_rewards_vault": "processed_data/user_rewards_vault",
+    "berachef_weight_updates": "processed_data/berachef_weight_updates"
 }
 
 # CSV column definitions
@@ -87,4 +89,8 @@ VALIDATOR_DELEGATOR_COLUMNS = [
 
 USER_REWARDS_VAULT_COLUMNS = [
     "timestamp", "block_number", "user_address", "rv_address", "user_rv_share"
+]
+
+BERACHEF_WEIGHT_UPDATES_COLUMNS = [
+    "timestamp", "block_number", "tx_hash", "validator_address", "weights"
 ]
